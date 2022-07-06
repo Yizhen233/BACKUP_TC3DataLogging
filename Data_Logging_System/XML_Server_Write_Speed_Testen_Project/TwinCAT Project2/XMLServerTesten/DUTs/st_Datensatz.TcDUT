@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <DUT Name="st_Datensatz" Id="{f84b0953-1daa-4755-8ec1-7886cb44918e}">
+    <Declaration><![CDATA[TYPE st_Datensatz :
+STRUCT
+	Timestamp : STRING ;
+	roomnum : REAL;
+	temp : REAL;
+	signal3 : REAL;
+	signal4 : REAL;
+	signal5 : REAL;
+	signal6 : REAL;
+	signal7 : REAL;
+	signal8 : REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

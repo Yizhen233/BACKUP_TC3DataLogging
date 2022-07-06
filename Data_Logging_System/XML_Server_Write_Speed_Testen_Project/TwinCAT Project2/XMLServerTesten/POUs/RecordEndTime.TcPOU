@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="RecordEndTime" Id="{fb7fceb2-a488-4893-be5f-8ca7f57f250e}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK RecordEndTime
+VAR_INPUT
+	EndFlag: BOOL := FALSE;
+END_VAR
+VAR_OUTPUT
+	RecordEndFinish : BOOL :=FALSE;
+	EndLo: UDINT;
+	EndHi: UDINT;
+END_VAR
+VAR
+	UpTrigDetect: R_TRIG;
+	MyTimer: getsystemtime;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//start to get system time
+MyTimer();
+
+//detect the trigger: false to true
+UpTrigDetect(CLK:=EndFlag);
+
+//record ending Timestamp of initializing period
+IF UpTrigDetect.Q THEN
+	EndHi := MyTimer.timeHiDW;
+	EndLo := MyTimer.timeLoDW;
+END_IF
+RecordEndFinish :=TRUE;
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="RecordEndTime">
+      <LineId Id="77" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="78" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="10" Count="0" />
+      <LineId Id="72" Count="1" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="14" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <DUT Name="XMLHeader" Id="{04aaf20d-1a56-4173-999c-2a06f76d84aa}">
+    <Declaration><![CDATA[TYPE XMLHeader :
+STRUCT
+	MaschineNummer : STRING:= '1234567890';
+	Manufacturer : STRING := 'Beckhoff';
+	Maschinetype : STRING:= 'cx2040.1.1.1';
+	Customer : STRING:= 'liyizhen23333';
+	WriteTimeDiff : ST_TimeDiff;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

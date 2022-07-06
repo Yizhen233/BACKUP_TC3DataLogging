@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="Get_Diff" Id="{c3dc958f-b05d-4d01-92c9-82c61099ccc6}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Get_Diff
+VAR_INPUT
+	BeginLo: UDINT;
+	BeginHi: UDINT;
+	EndLo: UDINT;
+	EndHi: UDINT;
+END_VAR
+VAR_OUTPUT
+	WriteTimeDiff: ST_TimeDiff;
+END_VAR
+VAR
+	HiDiff : UDINT;
+	LoDiff : UDINT;
+	SysTime : TIMESTRUCT;
+	SysTimeBegin: TIMESTRUCT;
+	SysTimeFinish: TIMESTRUCT;
+	fileT_to_sysT_Begin: fileT_to_sysT;
+	fileT_to_sysT_Finish: fileT_to_sysT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[HiDiff := EndHi - BeginHi;
+LoDiff := EndLo - BeginLo;
+
+//change hex time to hh:mm:ss time
+fileT_to_sysT_Begin(T_LoDW := LoDiff, T_HiDW := HiDiff);
+SysTime := fileT_to_sysT_Begin.sysT;
+
+WriteTimeDiff.mMillisecond:= SysTime.wMilliseconds;
+WriteTimeDiff.sSecond:= SysTime.wSecond;]]></ST>
+    </Implementation>
+    <LineIds Name="Get_Diff">
+      <LineId Id="68" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="39" Count="2" />
+      <LineId Id="93" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="94" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

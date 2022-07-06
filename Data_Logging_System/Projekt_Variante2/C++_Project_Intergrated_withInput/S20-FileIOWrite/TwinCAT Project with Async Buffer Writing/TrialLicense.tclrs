@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<TcLicenseInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2011/11/TcLicenseInfo">
+	<LicenseInfo>
+		<SystemId>{75C326C5-2283-8E06-3489-8821A8617865}</SystemId>
+		<IssueTime>2020-07-30T08:16:00</IssueTime>
+		<ExpireTime>2020-08-07T00:00:00</ExpireTime>
+		<LicenseKey>cba5a52955805fbfb1b04c4c41723773fdecdc69c42955c66a3a108d2690af38c59c26fec44cfd7ee05ed081191d59eb5de2720657dcb549b5bcbe29827ee1999cebd35fc02c9898b8fe4c72898bb411c8610cbac92807f6fe5e1a2bd814b99b58ad6fe15b22cabd1b39fd9845c95c3dc9d7e22ef1f5a4e95bdbb1fa7893d23dcfdd5f30c88d189cd8211a32d208349f2a98e05898cdbedd2060e6d01c42162c476e06af000c0659f95278611568daacf469a68a1258e09835d3f746a57452ac637a85cc0b9e707ebbf9a54d41570bee36bbdf24aa0d21f633450f4783f7a3d7811d6440104c4804009fc50b14d93c9d8b389f9d5ec4d64196644dcfe350d72f</LicenseKey>
+		<License>
+			<LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+			<Name>TC3 C++</Name>
+			<OrderNo>TC1300</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{4C256767-E6E6-4AF5-BD68-9F7ABAD0C200}</LicenseId>
+			<Name>TC3 ADS</Name>
+			<OrderNo>TC1000</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{3FF18E97-7754-401B-93FB-70544DE28A13}</LicenseId>
+			<Name>TC3 IO</Name>
+			<OrderNo>TC1100</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{AD7F40C3-F160-4413-83E3-6B7656A795A2}</LicenseId>
+			<Name>TC3 C++ / MatSim</Name>
+			<OrderNo>TC1320</OrderNo>
+		</License>
+	</LicenseInfo>
+</TcLicenseInfo>

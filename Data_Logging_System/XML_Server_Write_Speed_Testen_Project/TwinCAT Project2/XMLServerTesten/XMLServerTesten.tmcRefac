@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedType>
+      <Type guid="f84b0953-1daa-4755-8ec1-7886cb44918e">DATENSATZ</Type>
+      <From>Datensatz</From>
+      <To>st_Datensatz</To>
+    </RenamedType>
+  </Renames>
+</Refactors>
