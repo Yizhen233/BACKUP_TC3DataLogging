@@ -1,0 +1,147 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="write_to_XML" Id="{974eda95-40f6-4f07-a948-dd051c931b41}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK write_to_XML
+VAR_INPUT
+	LogInput : ARRAY[1..20] OF Datensatz;
+	bExecute 		: BOOL := FALSE;
+	sFilePath 	: T_MaxString := 'C:\temp_Yizhen\Test.xml';  			//disable for CE
+  //sFilePath 	: T_MaxString := '\Hard Disk\Test.xml';		//enable for CE
+END_VAR
+VAR_OUTPUT
+	WriteTimeDiff: ST_TimeDiff;
+	WriteFinishFlag : BOOL;
+END_VAR
+VAR
+	bBusy : BOOL;
+	bExecuteValue 		: BOOL;
+	get_Diff : get_Diff;
+	XmlSrvWriteValue : FB_XmlSrvWrite;
+    sXPathData 		: T_MaxString := '/datafromroom/datapart';
+  	INPUT: int;
+	Error: BOOL;
+	ErrID: UDINT;
+	MyTimer: getsystemtime;
+	UpTrigDetect: R_TRIG;
+	DownTrigDetect: F_TRIG;
+	DownTrigDetectHeader: F_TRIG;
+	fileT_to_sysT_Before: fileT_to_sysT;
+	fileT_to_sysT_After: fileT_to_sysT;
+	SysTimeBefore: TIMESTRUCT;
+	SysTimeAfter: TIMESTRUCT;
+	BeginLo: UDINT;
+	BeginHi: UDINT;
+	EndLo: UDINT;
+	EndHi: UDINT;
+	MyTimer2: getsystemtime;
+	Header: XMLHeader;
+	XmlSrvWriteHeader: FB_XmlSrvWrite;
+	sXPathHeader: T_MaxString := '/datafromroom/Header';
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(* 	Sample1 creates an XML-file under the path C:\Test.xml and writes value1 to it. 
+	Existing file will be overwritten.
+	FUNCTIONBLOCK: FB_XmlSrvWrite *)
+(*	
+//start to get system time	
+MyTimer();
+
+//detect the trigger: false to true
+UpTrigDetect(CLK:=bExecute);*)
+
+//reset buffer reading flag
+WriteFinishFlag := FALSE;
+
+//detect the trigger:true to false
+DownTrigDetect(CLK:=XmlSrvWriteValue.bBusy);
+DownTrigDetectHeader(CLK:=XmlSrvWriteHeader.bBusy);
+
+(*
+//record beginning Timestamp of writing period
+IF UpTrigDetect.Q THEN
+	BeginLo := MyTimer.timeLoDW;							
+	BeginHi := MyTimer.timeHiDW;
+END_IF
+*)
+
+//write the xml header
+XmlSrvWriteHeader(
+	nMode	:= XMLSRV_ADDMISSING, 
+  pSymAddr	:= ADR(Header),
+  cbSymSize	:= SIZEOF(Header), 
+  sFilePath	:= sFilePath,
+  sXPath	:= sXPathHeader,
+  bExecute	:= bExecute
+);
+
+//when xml header is done, start to write the values
+IF DownTrigDetectHeader.Q THEN
+	bExecuteValue := TRUE;
+END_IF
+
+//write values to xml file	
+XmlSrvWriteValue(
+  nMode		:= XMLSRV_ADDMISSING, 
+  pSymAddr	:= ADR(LogInput),
+  cbSymSize	:= SIZEOF(LogInput), 
+  sFilePath	:= sFilePath,
+  sXPath	:= sXPathData,
+  bExecute	:= bExecuteValue
+);
+
+Error := XmlSrvWriteValue.bError;
+ErrID := XmlSrvWriteValue.nErrId;
+bBusy := XmlSrvWriteValue.bBusy; 
+
+
+//record ending Timestamp of writing period
+IF DownTrigDetect.Q THEN
+	WriteFinishFlag := TRUE;
+	bExecute := FALSE;
+	bExecuteValue := FALSE;
+	//EndHi := MyTimer.timeHiDW;
+	//EndLo := MyTimer.timeLoDW;							
+END_IF
+
+(*//get timeintervall for writing into xml file
+get_Diff(BeginLo := BeginLo,BeginHi := BeginHi,EndLo := EndLo, EndHi := EndHi);
+WriteTimeDiff:=get_Diff.WriteTimeDiff;*)
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="write_to_XML">
+      <LineId Id="580" Count="8" />
+      <LineId Id="1030" Count="0" />
+      <LineId Id="989" Count="0" />
+      <LineId Id="589" Count="0" />
+      <LineId Id="950" Count="0" />
+      <LineId Id="590" Count="1" />
+      <LineId Id="911" Count="0" />
+      <LineId Id="990" Count="0" />
+      <LineId Id="592" Count="5" />
+      <LineId Id="675" Count="1" />
+      <LineId Id="673" Count="0" />
+      <LineId Id="599" Count="7" />
+      <LineId Id="677" Count="0" />
+      <LineId Id="667" Count="0" />
+      <LineId Id="607" Count="0" />
+      <LineId Id="668" Count="2" />
+      <LineId Id="608" Count="8" />
+      <LineId Id="678" Count="0" />
+      <LineId Id="617" Count="1" />
+      <LineId Id="756" Count="0" />
+      <LineId Id="666" Count="0" />
+      <LineId Id="835" Count="0" />
+      <LineId Id="622" Count="1" />
+      <LineId Id="873" Count="0" />
+      <LineId Id="832" Count="1" />
+      <LineId Id="624" Count="2" />
+      <LineId Id="679" Count="0" />
+      <LineId Id="627" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="718" Count="0" />
+      <LineId Id="717" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

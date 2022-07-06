@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="fileT_to_sysT" Id="{49a9d259-4611-425a-8a32-dc2fbd4d2c02}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK fileT_to_sysT
+VAR_INPUT
+	T_LoDW : DWORD;
+	T_HiDW : DWORD;
+END_VAR
+VAR_OUTPUT
+	sysT : TIMESTRUCT;
+END_VAR
+VAR
+	fileT : T_FILETIME;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[fileT.dwLowDateTime:= T_LoDW;			//change hex time to hh:mm:ss time
+fileT.dwHighDateTime:= T_HiDW;
+sysT := FILETIME_TO_SYSTEMTIME(fileT);]]></ST>
+    </Implementation>
+    <LineIds Name="fileT_to_sysT">
+      <LineId Id="17" Count="1" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

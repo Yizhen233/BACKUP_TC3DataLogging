@@ -1,0 +1,48 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="RecordStartTime" Id="{97d78cee-8bd9-496e-8a02-6d3fa1e4fe07}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK RecordStartTime
+VAR_INPUT
+	StartFlag: BOOL := FALSE;
+END_VAR
+VAR_OUTPUT
+	RecordStFinish : BOOL :=FALSE;
+	BeginLo: UDINT;
+	BeginHi: UDINT;
+END_VAR
+VAR
+	UpTrigDetect: R_TRIG;
+	MyTimer: getsystemtime;
+	Delay: TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//start to get system time
+MyTimer();
+
+//detect the trigger: false to true
+UpTrigDetect(CLK:=StartFlag);
+
+//record beginning Timestamp of initializing period
+IF UpTrigDetect.Q THEN
+	BeginLo := MyTimer.timeLoDW;								
+	BeginHi := MyTimer.timeHiDW;
+END_IF
+
+RecordStFinish := TRUE;
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="RecordStartTime">
+      <LineId Id="76" Count="0" />
+      <LineId Id="60" Count="1" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="19" Count="5" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="68" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

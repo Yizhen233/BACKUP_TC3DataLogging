@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="write_to_Buffer" Id="{6ee574f5-f6d2-45c3-8dcf-06b67e67e4e2}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK write_to_Buffer
+VAR_INPUT
+	m: REAL;
+	startrecord : BOOL;
+END_VAR
+VAR_OUTPUT
+	Datensatz : Datensatz;
+	TimestampSYS: TIMESTRUCT;
+END_VAR
+VAR
+	GetTime : NT_GetTime;
+	GETTIMESTART : BOOL :=TRUE;
+	Timestamp : T_Filetime;
+	MyTimer: getsystemtime;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//100 values in array
+	//GetTime(START := GETTIMESTART,TIMESTR => Timestamp);
+	//Datensatz.Timestamp := SYSTEMTIME_TO_STRING(Timestamp);
+	
+	
+	MyTimer();
+	IF startrecord THEN
+		Timestamp.dwLowDateTime:= MyTimer.timeLoDW;							
+		Timestamp.dwHighDateTime := MyTimer.timeHiDW;
+		TimestampSYS := FILETIME_TO_SYSTEMTIME(Timestamp);
+		Datensatz.Timestamp := SYSTEMTIME_TO_STRING(TimestampSYS);
+	END_IF
+	Datensatz.temp := m;
+	Datensatz.roomnum := 0.99999+m; 	
+	Datensatz.signal3 := 20.99999+m;
+	Datensatz.signal4 := 21.99999+m;
+	Datensatz.signal5 := 22.99999+m;
+	Datensatz.signal6 := 23.99999+m;
+	Datensatz.signal7 := 24.99999+m;
+	Datensatz.signal8 := 25.99999+m;
+
+	
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="write_to_Buffer">
+      <LineId Id="54" Count="0" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="201" Count="1" />
+      <LineId Id="176" Count="0" />
+      <LineId Id="180" Count="0" />
+      <LineId Id="183" Count="2" />
+      <LineId Id="181" Count="1" />
+      <LineId Id="95" Count="0" />
+      <LineId Id="56" Count="1" />
+      <LineId Id="89" Count="5" />
+      <LineId Id="155" Count="0" />
+      <LineId Id="150" Count="0" />
+      <LineId Id="146" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

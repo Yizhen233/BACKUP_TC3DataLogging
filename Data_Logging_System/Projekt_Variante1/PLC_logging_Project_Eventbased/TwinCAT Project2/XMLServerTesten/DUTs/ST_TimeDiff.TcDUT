@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <DUT Name="ST_TimeDiff" Id="{ab07a440-c96d-4810-8ba0-5d8ad617de47}">
+    <Declaration><![CDATA[TYPE ST_TimeDiff :
+STRUCT
+	sSecond : WORD;
+	mMillisecond : WORD;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

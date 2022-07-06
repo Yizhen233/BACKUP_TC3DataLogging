@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <GVL Name="GVL" Id="{296f79c9-c10e-403f-97cf-14c0f7e00da9}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	
+	SetAussenTemp AT %Q*: LREAL := 17;
+	SetWasserTemp AT %Q*: LREAL := 90;
+	SetRaumTemp1 AT %Q*: LREAL := 20;
+	Traum1 AT %I*: LREAL;
+	TWasser AT %I*: LREAL;
+	Traum2 AT %I*: LREAL;
+	setAussenT AT %I*: LREAL;
+	setWasserT AT %I*: LREAL;
+	a AT %I*: LREAL;
+	b1 AT %I*: LREAL;
+	b2 AT %I*: LREAL;
+	setRaumT1 AT %I*: LREAL;
+	setRaumT2 AT %I*: LREAL;
+	SetRaumTemp2 AT %Q*: LREAL := 25;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

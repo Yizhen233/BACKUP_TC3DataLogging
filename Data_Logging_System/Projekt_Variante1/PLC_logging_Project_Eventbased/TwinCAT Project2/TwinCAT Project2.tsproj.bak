@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.7">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{EDAD7171-4820-6429-B9C9-576F17CD3EE0}" Namespace="Tc2_Standard" AutoDeleteType="true">R_TRIG</Name>
+			<Comment><![CDATA[
+	Rising Edge detection.
+]]></Comment>
+			<BitSize>128</BitSize>
+			<SubItem>
+				<Name>CLK</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<Comment><![CDATA[ Signal to detect ]]></Comment>
+				<BitSize>8</BitSize>
+				<BitOffs>64</BitOffs>
+				<Properties>
+					<Property>
+						<Name>ItemType</Name>
+						<Value>Input</Value>
+					</Property>
+				</Properties>
+			</SubItem>
+			<SubItem>
+				<Name>Q</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<Comment><![CDATA[ rising edge at signal detected ]]></Comment>
+				<BitSize>8</BitSize>
+				<BitOffs>72</BitOffs>
+				<Properties>
+					<Property>
+						<Name>ItemType</Name>
+						<Value>Output</Value>
+					</Property>
+				</Properties>
+			</SubItem>
+			<SubItem>
+				<Name>M</Name>
+				<Type GUID="{18071995-0000-0000-0000-000000000030}">BOOL</Type>
+				<BitSize>8</BitSize>
+				<BitOffs>80</BitOffs>
+				<Properties>
+					<Property>
+						<Name>conditionalshow</Name>
+					</Property>
+				</Properties>
+			</SubItem>
+			<Method>
+				<Name>__GetInterfaceReference</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</ReturnType>
+				<ReturnBitSize>8</ReturnBitSize>
+				<Parameter>
+					<Name>nInterfaceId</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000009}">DINT</Type>
+					<BitSize>32</BitSize>
+				</Parameter>
+				<Parameter>
+					<Name>pRef</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000007}" PointerTo="2">DWORD</Type>
+					<BitSize>64</BitSize>
+				</Parameter>
+			</Method>
+			<Method>
+				<Name>__GetInterfacePointer</Name>
+				<ReturnType GUID="{18071995-0000-0000-0000-000000000030}">BOOL</ReturnType>
+				<ReturnBitSize>8</ReturnBitSize>
+				<Parameter>
+					<Name>pRef</Name>
+					<Type GUID="{18071995-0000-0000-0000-000000000007}" PointerTo="2">DWORD</Type>
+					<BitSize>64</BitSize>
+				</Parameter>
+			</Method>
+			<Properties>
+				<Property>
+					<Name>PouType</Name>
+					<Value>FunctionBlock</Value>
+				</Property>
+				<Property>
+					<Name>conditionalshow_all_locals</Name>
+				</Property>
+			</Properties>
+		</DataType>
+	</DataTypes>
+	<Project ProjectGUID="{5B5A4FFE-AFED-4462-B124-E62AAABC3F91}" Target64Bit="true" ShowHideConfigurations="#x106">
+		<System>
+			<Settings MaxCpus="4" NonWinCpus="2">
+				<Cpu CpuId="2"/>
+			</Settings>
+			<Licenses>
+				<Target>
+					<ManualSelect>{304D006A-8299-4560-AB79-438534B50288}</ManualSelect>
+					<ManualSelect>{2AFA4536-55C8-4554-BE9D-FAF0C7E2EFC3}</ManualSelect>
+				</Target>
+			</Licenses>
+			<Tasks>
+				<Task Id="3" Priority="20" CycleTime="100000" AmsPort="350">
+					<Name>PlcTask</Name>
+				</Task>
+			</Tasks>
+		</System>
+		<Plc>
+			<Project GUID="{2E46E438-8B3A-4E09-A638-9F85103C3D40}" Name="XMLServerTesten" PrjFilePath="XMLServerTesten\XMLServerTesten.plcproj" TmcFilePath="XMLServerTesten\XMLServerTesten.tmc" ReloadTmc="true" AmsPort="851" FileArchiveSettings="#x000e">
+				<Instance Id="#x08502000" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="XMLServerTesten\XMLServerTesten.tmc">
+					<Name>XMLServerTesten Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Vars VarGrpType="8">
+						<Name>PlcTask Retains</Name>
+						<Var>
+							<Name>MAIN.XMLTesten.UpTrigDetect</Name>
+							<Type GUID="{EDAD7171-4820-6429-B9C9-576F17CD3EE0}" Namespace="Tc2_Standard">R_TRIG</Type>
+							<InOut>7</InOut>
+						</Var>
+					</Vars>
+					<TaskPouOids>
+						<TaskPouOid Prio="20" OTCID="#x08502001"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+		</Plc>
+	</Project>
+</TcSmProject>

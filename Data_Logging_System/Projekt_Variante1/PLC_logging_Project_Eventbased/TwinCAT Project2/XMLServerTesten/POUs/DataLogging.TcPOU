@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <POU Name="DataLogging" Id="{e3884847-1bc9-4b6b-a30d-377b168c65c1}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK DataLogging
+VAR
+	bBufferFinish : BOOL;
+	bXMLFinish : BOOL;
+	RecordStartTime : RecordStartTime;
+	write_to_Buffer : write_to_Buffer;
+	RecordEndTime : RecordEndTime;
+	write_to_XML : write_to_XML;
+	get_Diff : get_Diff;
+	XMLFileName : T_MaxString;
+	Buffer1 : ARRAY[1..20] OF Datensatz;
+	Buffer2 : ARRAY[1..20] OF Datensatz;
+	m: INT :=1;
+	i: INT :=22;
+	StopRecordStart: BOOL := TRUE;
+	DownTrigDetect: F_TRIG;
+	WriteTimeDiff: ST_TimeDiff;
+	Name: T_MaxString;
+	bExecute: BOOL := FALSE;
+	event: BOOL;
+	l : STRING;
+	TimestampSYS : TIMESTRUCT;
+	UpTrigDetect: R_trig;
+END_VAR
+
+VAR RETAIN
+END_VAR]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[(*//record the start timestamp of writing to buffer
+IF StopRecordStart THEN
+	RecordStartTime(StartFlag := TRUE);
+END_IF
+StopRecordStart := FALSE; 			//be set so that the start timestamp is not refreshed when writing datensatz2
+
+//when recordstarttime is finished the datensatz is written
+IF RecordStartTime.RecordStFinish THEN*)
+
+//start the function to get the needed to be recorded values
+write_to_Buffer(TimestampSYS=>TimestampSYS,m := m,startrecord := TRUE);
+Buffer1[m]:= write_to_Buffer.Datensatz;
+
+//when events trigger is detected, record the 20 values before event trigger
+UpTrigDetect(CLK:=event);
+IF UpTrigDetect.Q THEN
+	Buffer2 :=Buffer1;
+	bBufferFinish :=TRUE;
+	l := CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wYear),'-'),CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wMonth),'-'),CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wDay),'-'),CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wHour),'-'),CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wMinute),'-'),CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wSecond),'-'),WORD_TO_STRING(TimestampSYS.wMilliseconds)))))));
+	i := 0;
+END_IF
+
+//record the 20 values after event trigger
+IF i = 20 THEN
+	Buffer2:=Buffer1;
+	bBufferFinish :=TRUE;
+	l := CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wYear),'-'),CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wMonth),'-'),CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wDay),'-'),CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wHour),'-'),CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wMinute),'-'),CONCAT(CONCAT(WORD_TO_STRING(TimestampSYS.wSecond),'-'),WORD_TO_STRING(TimestampSYS.wMilliseconds)))))));
+END_IF
+i := i+1;
+
+//reset counter in case it overflows
+IF i = 100 THEN
+	i := 22;
+END_IF
+
+//overwrite buffer from the first value when buffer is full
+IF m = 20 THEN
+	m:=0;	
+END_IF
+
+m :=m+1;
+
+//give name to xml files
+Name:=CONCAT(CONCAT('C:\temp_Yizhen\',l),'TEST.xml');
+XMLFileName := Name;
+//XMLFileName := 'C:\temp_Yizhen\Test.xml';
+
+//write data from buffer to xml file
+write_to_XML(WriteFinishFlag => bXMLFinish,sFilePath := XMLFileName,LogInput := Buffer2,bExecute := bExecute);
+
+//reset write to xml function
+IF bBufferFinish THEN
+	bExecute := TRUE;
+END_IF 
+
+IF bXMLFinish THEN
+	bExecute := FALSE;
+	bBufferFinish :=FALSE;
+	bXMLFinish := FALSE;
+END_IF
+
+(*//get timeintervall for writing into buffer (10ms*n)
+get_Diff(WriteTimeDiff=>WriteTimeDiff,BeginLo := RecordStartTime.BeginLo,BeginHi := RecordStartTime.BeginHi,EndLo := RecordEndTime.EndLo, EndHi := RecordEndTime.EndHi);
+*)
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="DataLogging">
+      <LineId Id="111" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="112" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="696" Count="0" />
+      <LineId Id="695" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="697" Count="0" />
+      <LineId Id="1160" Count="0" />
+      <LineId Id="1028" Count="0" />
+      <LineId Id="379" Count="0" />
+      <LineId Id="727" Count="0" />
+      <LineId Id="732" Count="1" />
+      <LineId Id="1090" Count="0" />
+      <LineId Id="735" Count="0" />
+      <LineId Id="728" Count="0" />
+      <LineId Id="1161" Count="0" />
+      <LineId Id="764" Count="0" />
+      <LineId Id="729" Count="0" />
+      <LineId Id="765" Count="0" />
+      <LineId Id="1127" Count="1" />
+      <LineId Id="766" Count="0" />
+      <LineId Id="726" Count="0" />
+      <LineId Id="1162" Count="0" />
+      <LineId Id="996" Count="0" />
+      <LineId Id="734" Count="0" />
+      <LineId Id="993" Count="1" />
+      <LineId Id="1163" Count="0" />
+      <LineId Id="995" Count="0" />
+      <LineId Id="382" Count="1" />
+      <LineId Id="150" Count="0" />
+      <LineId Id="736" Count="0" />
+      <LineId Id="364" Count="0" />
+      <LineId Id="698" Count="0" />
+      <LineId Id="411" Count="0" />
+      <LineId Id="375" Count="0" />
+      <LineId Id="362" Count="0" />
+      <LineId Id="360" Count="0" />
+      <LineId Id="356" Count="0" />
+      <LineId Id="612" Count="0" />
+      <LineId Id="610" Count="0" />
+      <LineId Id="699" Count="0" />
+      <LineId Id="639" Count="0" />
+      <LineId Id="357" Count="0" />
+      <LineId Id="495" Count="0" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="468" Count="0" />
+      <LineId Id="249" Count="0" />
+      <LineId Id="469" Count="0" />
+      <LineId Id="521" Count="0" />
+      <LineId Id="666" Count="0" />
+      <LineId Id="470" Count="0" />
+      <LineId Id="331" Count="0" />
+      <LineId Id="174" Count="1" />
+      <LineId Id="178" Count="0" />
+      <LineId Id="151" Count="0" />
+      <LineId Id="59" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

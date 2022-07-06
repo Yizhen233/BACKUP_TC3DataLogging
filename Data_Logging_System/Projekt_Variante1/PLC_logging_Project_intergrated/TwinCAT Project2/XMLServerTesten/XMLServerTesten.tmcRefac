@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedSymbol>
+      <Type guid="e3884847-1bc9-4b6b-a30d-377b168c65c1">DataLoggingEvent</Type>
+      <From>l</From>
+      <To>timeinname</To>
+    </RenamedSymbol>
+  </Renames>
+</Refactors>

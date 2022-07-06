@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.3">
+  <DUT Name="Datensatz" Id="{f84b0953-1daa-4755-8ec1-7886cb44918e}">
+    <Declaration><![CDATA[TYPE Datensatz :
+STRUCT
+	Timestamp : STRING ;
+	watertemp : LREAL;
+	setoutsidetemp : LREAL;
+	setwatertemp : LREAL;
+	roomtemp1 : LREAL;
+	setroomtemp1 : LREAL;
+	roomtemp2 : LREAL;
+	setroomtemp2 : LREAL;
+	a : LREAL;
+	b1 : LREAL;
+	b2 : LREAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
